@@ -3,12 +3,24 @@ import type { PropsWithChildren } from "react";
 
 export const metadata = {
   title: "CpE Fair 2024: The Grand Prix",
-  description: "Event registration & dashboard — CpE Fair 2024",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
+      <head>
+        {/* explicit favicon links + cache-bust to force browser refresh */}
+        <link rel="icon" href="/favicon.ico?v=2" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+        <meta name="theme-color" content="#0b0b0b" />
+      </head>
+
       <body className="antialiased">
         {/* Top racing stripe */}
         <div style={{ height: 6, background: "linear-gradient(90deg,#d90429,#ff6b00)" }} />
