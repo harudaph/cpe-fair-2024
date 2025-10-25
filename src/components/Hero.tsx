@@ -17,7 +17,7 @@ export default function Hero({ onExplore }: Props) {
       <motion.div
         aria-hidden
         className="absolute inset-0 -z-20 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/hero-gt.png')" }}
+        style={{ backgroundImage: "url('hero-gt.png')" }}
         initial={{ scale: 1.02 }}
         animate={{ scale: [1.02, 1.00, 1.02] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}

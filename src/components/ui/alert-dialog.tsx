@@ -3,8 +3,8 @@
 import * as React from "react";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
-import { cn } from "@/utils"; // adjust path if your util is located elsewhere
-import { buttonVariants } from "@/components/ui/button"; // adjust path to your button util
+import { cn } from "./utils"; // adjust path if your util is located elsewhere
+import { buttonVariants } from "./button"; // adjust path to your button util
 
 /**
  * If you do not have a `cn` helper, uncomment the small fallback below and
