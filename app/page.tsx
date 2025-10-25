@@ -2,9 +2,10 @@
 
 import React from "react";
 import Hero from "../src/components/Hero";
-import EventFilterBar, { Category } from "../src/components/EventFilterBar";
-import EventCard from "../src/components/EventCard";
-import RegistrationModal from "../src/components/RegistrationModal";
+import EventListing from "../src/components/EventListing";
+import EventSection from "../src/components/EventSection";
+import RegistrationDialog from "../src/components/RegistrationDialog";
+import { Category } from "../src/types";
 
 const DATA = [
   {
@@ -61,6 +62,7 @@ export default function Page() {
 
   return (
     <>
+      {/* Hero Section */}
       <Hero
         onExplore={() => {
           const el = document.getElementById("events");
@@ -68,6 +70,7 @@ export default function Page() {
         }}
       />
 
+      {/* Event Listing Section */}
       <section id="events" className="pt-12 pb-24">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-semibold heading-accent mb-2">Events Lineup</h2>
@@ -75,22 +78,58 @@ export default function Page() {
             Select a category to filter — think of this like the race grid.
           </p>
 
-          <EventFilterBar active={filter} onChange={(c) => setFilter(c)} />
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            <button
+              className={`px-4 py-2 rounded-full ${
+                filter === "all" ? "bg-red-600 text-white" : "bg-zinc-800 text-gray-400"
+              }`}
+              onClick={() => setFilter("all")}
+            >
+              All
+            </button>
+            {DATA.map((d) => (
+              <button
+                key={d.id}
+                className={`px-4 py-2 rounded-full ${
+                  filter === d.id ? "bg-red-600 text-white" : "bg-zinc-800 text-gray-400"
+                }`}
+                onClick={() => setFilter(d.id as Category)}
+              >
+                {d.title}
+              </button>
+            ))}
+          </div>
 
+          {/* Event Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             {itemsToShow.map((ev) => (
-              <EventCard
+              <div
                 key={ev.id}
-                title={ev.title}
-                description={ev.description}
-                subEvents={ev.subs}
-                onRegister={() => handleRegister(ev.title)}
-              />
+                className="bg-zinc-900 border border-white/10 rounded-lg p-4 flex flex-col justify-between hover:border-red-500 transition"
+              >
+                <div>
+                  <h3 className="text-xl text-white font-semibold mb-2 cursor-pointer" onClick={() => setFilter(ev.id as Category)}>
+                    {ev.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-2">{ev.description}</p>
+                  <p className="text-gray-500 text-xs uppercase tracking-wide">
+                    {ev.subs.length} Sub-Events
+                  </p>
+                </div>
+                <button
+                  className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded"
+                  onClick={() => handleRegister(ev.title)}
+                >
+                  Register Now
+                </button>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Footer Info */}
       <section className="py-12 border-t border-white/6">
         <div className="container mx-auto px-6 text-center">
           <p className="text-sm text-white/70">
@@ -100,7 +139,23 @@ export default function Page() {
         </div>
       </section>
 
-      <RegistrationModal open={modalOpen} title={modalTitle} onClose={() => setModalOpen(false)} />
+      {/* Registration Dialog */}
+      <RegistrationDialog
+        event={{
+          id: "modal",
+          title: modalTitle,
+          description: "",
+          subEvents: [],
+          category: "",
+          icon: "",
+        }}
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={(data) => {
+          console.log("Registered:", data);
+          setModalOpen(false);
+        }}
+      />
     </>
   );
 }
